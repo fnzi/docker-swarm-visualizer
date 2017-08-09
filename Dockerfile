@@ -6,8 +6,10 @@ WORKDIR /app
 # Only run npm install if these files change.
 ADD ./package.json /app/package.json
 
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+
 # Install dependencies
-RUN npm install
+RUN cnpm install
 
 # Add the rest of the sources
 ADD . /app
@@ -25,7 +27,10 @@ ADD ./index.tpl /app
 ADD ./server.js /app
 COPY --from=dist /app/dist/* /app/dist/
 COPY --from=dist /app/package.json /app/package.json
-RUN npm install
+
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+RUN cnpm install
 
 # MS : Number of milliseconds between polling requests. Default is 1000.
 # CTX_ROOT : Context root of the application. Default is /
